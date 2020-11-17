@@ -1,0 +1,27 @@
+{
+  "name": "josign",
+  "version": "1.0.0",
+  "description": "Sign In &amp; Sign Up Backend app with jwt",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bvenceslas/JoSign.git"
+  },
+  "author": "Venceslas BURONGU",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bvenceslas/JoSign/issues"
+  },
+  "homepage": "https://github.com/bvenceslas/JoSign#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.15"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
