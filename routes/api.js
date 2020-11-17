@@ -2,6 +2,7 @@ const router = require('express').Router();
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { config } = require('dotenv/types');
 
 // API test
 router.route('/test').get((req, res) => {
@@ -9,7 +10,7 @@ router.route('/test').get((req, res) => {
 });
 
 // register
-router.route('/register').get(async (req, res) => {
+router.route('/register').post(async (req, res) => {
     
     const { name, email, phone, password } = req.body;
     // validation
@@ -17,7 +18,7 @@ router.route('/register').get(async (req, res) => {
         res.status(400).json({message: "Completez les champs vides"});
     }
 
-    User.findOne({email})
+    await User.findOne({email})
         .then(mail => {
             if(mail){
                 res.json({message: "User already exists"});
@@ -38,7 +39,8 @@ router.route('/register').get(async (req, res) => {
                                     {id: user.id},
                                     config.get('jgoasbhruiaeblrlaain'),
                                     {expiresIn: 3600},
-                                    (err, token) => {
+                                    (err, token) => { // return token
+                                        if(err) throw err;
                                         res.json({
                                             token,
                                             user:{
@@ -55,6 +57,40 @@ router.route('/register').get(async (req, res) => {
             }
         })
         .catch(err => res.json(err));
+});
+
+router.route('/auth').post(async (req, res) => {
+
+    const { email, password} = req.body;
+
+    if(!email || !password){
+        res.status(400).json(`L'email ou le password ne doivent pas etre vide`);
+    }
+
+    User.findOne({email})
+        .then(mail => {
+            if(!mail){
+                res.status(400).json(`Aucun utilisateur n' est connu sous cet email : ${mail}`);
+            }else{
+                bcrypt.compare(password, mail.password)
+                    .then(success => {
+                        if(!success) res.status(400).json(`Votre mot de passe est incorrect`);
+                        jwt.sign(
+                            {id: mail.id},
+                            config.get('jgoasbhruiaeblrlaain'),
+                            {expiresIn: 3600},
+                            (err, token) => {
+                                if(err) throw err;
+                                res.json({
+                                    token
+                                })
+                            }
+                        )
+                    })
+                    .catch(err => res.status(400).json({message: err}));
+            }
+        })
+        .catch(err => res.status(400).json({message: err}));
 });
 
 module.exports = router;
