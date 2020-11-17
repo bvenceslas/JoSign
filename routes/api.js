@@ -36,7 +36,7 @@ router.route('/register').get(async (req, res) => {
                             .then(user => {
                                 jwt.sign(
                                     {id: user.id},
-                                    config.get('Venceslas-joshua'),
+                                    config.get('jgoasbhruiaeblrlaain'),
                                     {expiresIn: 3600},
                                     (err, token) => {
                                         res.json({
