@@ -37,7 +37,7 @@ router.route('/register').post(async (req, res) => {
                             .then(user => {
                                 jwt.sign(
                                     {id: user.id},
-                                    config.get('jgoasbhruiaeblrlaain'),
+                                    config.get('secret_key'),
                                     {expiresIn: 3600},
                                     (err, token) => { // return token
                                         if(err) throw err;

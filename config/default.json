@@ -1,0 +1,4 @@
+{
+    "mongoURL":"mongodb+srv://user_pass:Pass_User@cluster0.72vy5.gcp.mongodb.net/db_jwt?retryWrites=true&w=majority",
+    "secret_key":"jgoasbhruiaeblrlaain"
+}
