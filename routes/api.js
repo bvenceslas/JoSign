@@ -2,7 +2,7 @@ const router = require('express').Router();
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { config } = require('dotenv/types');
+require('dotenv').config();
 
 // API test
 router.route('/test').get((req, res) => {
@@ -37,7 +37,7 @@ router.route('/register').post(async (req, res) => {
                             .then(user => {
                                 jwt.sign(
                                     {id: user.id},
-                                    config.get('secret_key'),
+                                    process.env.SECRET_KEY,
                                     {expiresIn: 3600},
                                     (err, token) => { // return token
                                         if(err) throw err;
@@ -77,7 +77,7 @@ router.route('/auth').post(async (req, res) => {
                         if(!success) res.status(400).json(`Votre mot de passe est incorrect`);
                         jwt.sign(
                             {id: mail.id},
-                            config.get('secret_key'),
+                            process.env.SECRET_KEY,
                             {expiresIn: 3600},
                             (err, token) => {
                                 if(err) throw err;
