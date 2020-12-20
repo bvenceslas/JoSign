@@ -77,7 +77,7 @@ router.route('/auth').post(async (req, res) => {
                         if(!success) res.status(400).json(`Votre mot de passe est incorrect`);
                         jwt.sign(
                             {id: mail.id},
-                            config.get('jgoasbhruiaeblrlaain'),
+                            config.get('secret_key'),
                             {expiresIn: 3600},
                             (err, token) => {
                                 if(err) throw err;
